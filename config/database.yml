@@ -24,8 +24,7 @@ development:
   <<: *default
   database: finance_collab_backend_development
   username: cms_arkk
-  # password: <%= ENV['USER_GENIUS_DATABASE_PASSWORD'] %>
-  password: 'password'
+  password: <%= ENV['USER_GENIUS_DATABASE_PASSWORD'] %>
   host: localhost
   port: 5432
   # The specified database role being used to connect to PostgreSQL.
@@ -62,8 +61,7 @@ test:
   <<: *default
   database: finance_collab_backend_test
   username: cms_arkk
-  # password: <%= ENV['USER_GENIUS_DATABASE_PASSWORD'] %>
-  password: 'password'
+  password: <%= ENV['USER_GENIUS_DATABASE_PASSWORD'] %>
   host: localhost
   port: 5432  
 
