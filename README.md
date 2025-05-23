@@ -22,3 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+* Need to set the Master Key in Environment: Run the following command to acheve that 
+  export RAILS_MASTER_KEY=$(cat config/master.key)
