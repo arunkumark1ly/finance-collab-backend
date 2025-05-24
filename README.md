@@ -2,8 +2,7 @@
 
 ## 🧭 Overview
 
-This is the **backend API** for the multi-user financial collaboration platform.  
-It supports team-based expense tracking, real-time updates, audit trails, and integration with external data sources (mocked) — all secured with **JWT authentication**.
+This is the **backend API** for the [multi-user financial collaboration platform](https://github.com/arunkumark1ly/finance-collab-frontend). It supports team-based expense tracking, real-time updates, audit trails, and integration with external data sources (mocked) — all secured with **JWT authentication**.
 
 ---
 
