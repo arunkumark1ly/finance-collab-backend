@@ -1,27 +1,40 @@
-# README
+📘 finance-collab-backend – API-Only Rails Application
+Overview
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend API for the multi-user financial collaboration app, enabling team-based expense tracking with real-time sync, audit logs, and external transaction integration.
 
-Things you may want to cover:
+🚀 Features
 
-* Ruby version
+JWT-based authentication
+Team-based expense management
+Real-time updates via ActionCable
+Comprehensive audit logging
+Simulated external transaction syncing via Sidekiq
 
-* System dependencies
+🛠️ Tech Stack
 
-* Configuration
+Ruby on Rails (API-only)
+PostgreSQL
+Sidekiq
+Redis
+ActionCable
+JWT for authentication
 
-* Database creation
+📦 Setup Instructions
 
-* Database initialization
+# Clone the repo
+git clone https://github.com/arunkumark1ly/finance-collab-backend
+cd finance-collab-backend
 
-* How to run the test suite
+# Install dependencies
+bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+# Set up database
+rails db:setup
 
-* Deployment instructions
+# Run Redis and Sidekiq
+redis-server
+bundle exec sidekiq
 
-* ...
-
-* Need to set the Master Key in Environment: Run the following command to acheve that 
-  export RAILS_MASTER_KEY=$(cat config/master.key)
+# Start the Rails server
+rails s
