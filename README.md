@@ -38,3 +38,8 @@ bundle exec sidekiq
 
 # Start the Rails server
 rails s
+
+
+🔐 Authentication
+
+JWT-based auth with login/signup. Use the Authorization header with a Bearer token for protected routes.
