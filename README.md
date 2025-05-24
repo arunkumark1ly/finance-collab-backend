@@ -43,3 +43,14 @@ rails s
 🔐 Authentication
 
 JWT-based auth with login/signup. Use the Authorization header with a Bearer token for protected routes.
+
+📡 API Highlights
+
+POST /signup
+POST /signin
+POST /teams
+GET /teams/:id/expenses
+POST /expenses
+GET /expenses/:id/audit_trail
+POST /external_sync/start
+
