@@ -53,4 +53,3 @@ GET /teams/:id/expenses
 POST /expenses
 GET /expenses/:id/audit_trail
 POST /external_sync/start
-
