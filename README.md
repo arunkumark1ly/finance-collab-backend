@@ -1,24 +1,38 @@
-📘 finance-collab-backend – API-Only Rails Application
+# 📘 finance-collab-backend – API-Only Rails Application
 
-🧭 Overview
-This is the backend API for the multi-user financial collaboration platform. It powers team-based expense tracking with features like real-time synchronization, audit logging, and external transaction integration—all secured with JWT authentication.
+## 🧭 Overview
 
-🚀 Features
-🔐 JWT-based authentication
-🧾 Team-based expense management
-⚡ Real-time updates using ActionCable
-📚 Audit logging for all expense activities
-🔁 Simulated external transaction sync using Sidekiq
-🛠️ Tech Stack
-💎 Ruby on Rails (API-only mode)
-🐘 PostgreSQL
-📊 Sidekiq for background processing
-🧠 Redis for job and ActionCable handling
-🔌 ActionCable for real-time features
-🔑 JWT for secure authentication
-📦 Setup Instructions
+This is the **backend API** for the multi-user financial collaboration platform.  
+It supports team-based expense tracking, real-time updates, audit trails, and integration with external data sources (mocked) — all secured with **JWT authentication**.
+
+---
+
+## 🚀 Features
+
+- 🔐 JWT-based authentication
+- 👥 Team-based expense tracking
+- ⚡ Real-time updates using ActionCable
+- 🧾 Comprehensive audit logging
+- 🔁 Simulated external sync with Sidekiq
+
+---
+
+## 🛠️ Tech Stack
+
+- **Ruby on Rails** (API-only)
+- **PostgreSQL**
+- **Sidekiq** for background jobs
+- **Redis** for queue management and ActionCable
+- **ActionCable** for real-time updates
+- **JWT** for authentication
+
+---
+
+## 📦 Setup Instructions
+
+```bash
 # Clone the repository
-git clone https://github.com/arunkumark1ly/finance-collab-backend
+git clone https://github.com/arunkumark1ly/finance-collab-backend.git
 cd finance-collab-backend
 
 # Install dependencies
@@ -27,32 +41,36 @@ bundle install
 # Set up the database
 rails db:setup
 
-# Start Redis server (for Sidekiq and ActionCable)
+# Start Redis server (required for Sidekiq and ActionCable)
 redis-server
 
-# Start Sidekiq in a separate terminal
+# In a new terminal, start Sidekiq
 bundle exec sidekiq
 
-# Run the Rails API server
+# Start the Rails server
 rails s
+
+
 🔐 Authentication
-Authentication is powered by JWT.
-Include the token in your API requests using the Authorization header:
+
+This API uses JWT (JSON Web Token) for securing endpoints.
+All protected routes require the following HTTP header:
 
 Authorization: Bearer <your_token_here>
 📡 API Endpoints
+
 🔑 Authentication
-
-POST /signup – Register a new user
-POST /signin – Login and receive a JWT token
+Method	Endpoint	Description
+POST	/signup	Register a new user
+POST	/signin	Log in and receive JWT
 👥 Teams & Expenses
-
-POST /teams – Create a new team
-GET /teams/:id/expenses – Fetch all expenses for a team
-POST /expenses – Add a new expense
-📚 Audit Trail
-
-GET /expenses/:id/audit_trail – View the audit trail of a specific expense
+Method	Endpoint	Description
+POST	/teams	Create a new team
+GET	/teams/:id/expenses	List all expenses for a team
+POST	/expenses	Add a new expense
+🧾 Audit Trail
+Method	Endpoint	Description
+GET	/expenses/:id/audit_trail	Retrieve audit logs for an expense
 🔁 External Sync
-
-POST /external_sync/start – Trigger the mocked external sync job
+Method	Endpoint	Description
+POST	/external_sync/start	Trigger mock external sync job
