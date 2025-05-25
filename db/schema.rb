@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_210619) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_223153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_210619) do
     t.datetime "accepted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email", "team_id"], name: "index_invitations_on_email_and_team_id", unique: true
     t.index ["email"], name: "index_invitations_on_email"
     t.index ["invited_by_id"], name: "index_invitations_on_invited_by_id"
     t.index ["team_id"], name: "index_invitations_on_team_id"
@@ -43,6 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_210619) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_team_memberships_on_team_id"
+    t.index ["user_id", "team_id"], name: "index_team_memberships_on_user_id_and_team_id", unique: true
     t.index ["user_id"], name: "index_team_memberships_on_user_id"
   end
 

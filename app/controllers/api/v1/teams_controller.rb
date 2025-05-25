@@ -22,9 +22,16 @@ class Api::V1::TeamsController < ApplicationController
 
   # Show a specific team
   def show
+    # Fetch the team along with its associated users and invitations
+    @team = Team.includes(:users, :invitations).find(params[:id])
+
     render json: {
       status: { code: 200, message: 'Team retrieved successfully.' },
-      data: @team
+      data: {
+        team: @team,
+        users: @team.users, # Associated users
+        invitations: @team.invitations # Associated invitations
+      }
     }, status: :ok
   end
 
