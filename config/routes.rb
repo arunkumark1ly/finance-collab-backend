@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :teams, only: [ :create, :destroy, :index, :show, :update ] do
         resources :invitations, only: [:create]
+        resources :expenses
       end
     end
   end

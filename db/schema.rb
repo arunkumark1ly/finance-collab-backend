@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_223153) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_25_230716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.decimal "amount"
+    t.string "description"
+    t.string "category"
+    t.date "spent_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_expenses_on_team_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.string "email", null: false
@@ -68,6 +81,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_223153) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "expenses", "teams"
+  add_foreign_key "expenses", "users"
   add_foreign_key "invitations", "teams"
   add_foreign_key "invitations", "users", column: "invited_by_id"
   add_foreign_key "team_memberships", "teams"
