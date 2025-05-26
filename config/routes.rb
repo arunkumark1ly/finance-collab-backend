@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :teams, only: [ :create, :destroy, :index, :show, :update ] do
         resources :invitations, only: [:create]
-        resources :expenses
+        resources :expenses do
+          get 'audit_trail', on: :member
+        end
       end
     end
   end

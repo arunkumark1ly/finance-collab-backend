@@ -49,6 +49,22 @@ class Api::V1::ExpensesController < ApplicationController
     end
   end
 
+  def audit_trail
+    # Find the expense
+    @expense = @team.expenses.find(params[:id])
+
+    # Check if the user is authorized to view the expense
+    authorize_user!
+
+    # Fetch the audit logs related to the expense
+    audit_logs = AuditLog.where(auditable: @expense).includes(:changed_by)
+
+    # Return the audit logs in the response, including user information
+    render json: audit_logs.as_json(include: { changed_by: { only: [:id, :email, :name] } }), status: :ok
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Expense not found.' }, status: :not_found
+  end
+
   private
 
   def set_team
