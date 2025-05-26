@@ -22,6 +22,7 @@ Rails.application.routes.draw do
           get 'audit_trail', on: :member
         end
       end
+      resources :categories, only: [:index]
     end
   end
 end

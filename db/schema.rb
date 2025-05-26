@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_26_011028) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_26_063022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,16 +27,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_011028) do
     t.index ["changed_by_id"], name: "index_audit_logs_on_changed_by_id"
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "expenses", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "user_id", null: false
     t.decimal "amount"
     t.string "description"
-    t.string "category"
     t.date "spent_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_expenses_on_category_id"
     t.index ["deleted_at"], name: "index_expenses_on_deleted_at"
     t.index ["team_id"], name: "index_expenses_on_team_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
@@ -97,6 +104,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_26_011028) do
   end
 
   add_foreign_key "audit_logs", "users", column: "changed_by_id"
+  add_foreign_key "expenses", "categories"
   add_foreign_key "expenses", "teams"
   add_foreign_key "expenses", "users"
   add_foreign_key "invitations", "teams"

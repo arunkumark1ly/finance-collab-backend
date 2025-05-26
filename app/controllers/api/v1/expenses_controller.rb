@@ -5,8 +5,8 @@ class Api::V1::ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :update, :destroy]
 
   def index
-    @expenses = @team.expenses.includes(:user).order(spent_on: :desc)
-    render json: @expenses.as_json(include: :user)
+    @expenses = @team.expenses.includes(:user, :category).order(spent_on: :desc)
+    render json: @expenses.as_json(include: [:user, :category])
   end
 
   def show
@@ -16,6 +16,13 @@ class Api::V1::ExpensesController < ApplicationController
   def create
     @expense = @team.expenses.new(expense_params.merge(user: current_user))
     @expense.audit_user = current_user
+
+    # Handle category association
+    if params[:expense][:category_id].present?
+      @expense.category_id = params[:expense][:category_id]
+    elsif params[:expense][:category_name].present?
+      @expense.category = Category.find_or_create_by(name: params[:expense][:category_name])
+    end
 
     if @expense.save
       # Uncomment the following line to enable ActionCable broadcasting
@@ -59,8 +66,15 @@ class Api::V1::ExpensesController < ApplicationController
     # Fetch the audit logs related to the expense
     audit_logs = AuditLog.where(auditable: @expense).includes(:changed_by)
 
-    # Return the audit logs in the response, including user information
-    render json: audit_logs.as_json(include: { changed_by: { only: [:id, :email, :name] } }), status: :ok
+    # Prepare the response with category name
+    audit_logs_with_category = audit_logs.map do |log|
+      log_data = log.as_json(include: { changed_by: { only: [:id, :email, :name] } })
+      log_data['category_name'] = log.auditable.category&.name  # Add category name to the log data
+      log_data
+    end
+
+    # Return the audit logs in the response, including user information and category name
+    render json: audit_logs_with_category, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Expense not found.' }, status: :not_found
   end
@@ -80,6 +94,6 @@ class Api::V1::ExpensesController < ApplicationController
   end
 
   def expense_params
-    params.require(:expense).permit(:amount, :description, :category, :spent_on)
+    params.require(:expense).permit(:amount, :description, :category_id, :category_name, :spent_on)
   end
 end
