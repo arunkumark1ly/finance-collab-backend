@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_25_230716) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_26_011028) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "audit_logs", force: :cascade do |t|
+    t.string "auditable_type", null: false
+    t.bigint "auditable_id", null: false
+    t.string "action"
+    t.bigint "changed_by_id"
+    t.json "previous_data"
+    t.json "new_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auditable_type", "auditable_id"], name: "index_audit_logs_on_auditable"
+    t.index ["changed_by_id"], name: "index_audit_logs_on_changed_by_id"
+  end
 
   create_table "expenses", force: :cascade do |t|
     t.bigint "team_id", null: false
@@ -23,6 +36,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_230716) do
     t.date "spent_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_expenses_on_deleted_at"
     t.index ["team_id"], name: "index_expenses_on_team_id"
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
@@ -81,6 +96,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_25_230716) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "audit_logs", "users", column: "changed_by_id"
   add_foreign_key "expenses", "teams"
   add_foreign_key "expenses", "users"
   add_foreign_key "invitations", "teams"
